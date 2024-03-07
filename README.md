@@ -1,5 +1,6 @@
 ### Features: 
-Blockchain simulation to help keep transactions secure and private. Can create a blockchain, add blocks, and check for integrity of blocks.
+Used for storing and verifying transactions.
+Blockchain simulation to help keep transactions secure and private. Can create multiple blockchain, add blocks, and check for integrity of blocks.
 ## Tamper Protection: 
 <img width="558" alt="image" src="https://github.com/jialiangcao/bk2/assets/131563685/b26047fd-0107-4ab7-9c10-936cdf48307d">
 <img width="441" alt="image" src="https://github.com/jialiangcao/bk2/assets/131563685/32e3d884-591e-473c-b88e-35ca8fde952b">
@@ -8,7 +9,7 @@ Blockchain simulation to help keep transactions secure and private. Can create a
 
 ### How to run:
 1. Download the main.js file.
-2. Open a terminal and use command "cd" to navigate to the file location.
+2. Open a terminal and use command "cd C:/ExampleUser/ExampleLocation" to navigate to the file location.
 3. Enter "node main.js". (Assuming node is installed)
 
 ### Example Output: 
