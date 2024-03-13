@@ -1,23 +1,36 @@
-const SHA256=require('crypto-js/sha256');
+const SHA256 = require('crypto-js/sha256');
 
 class Block {
-  constructor(index,timestamp,data,previousHash="") {
-      this.index = index;
-      this.timestamp = timestamp;
-      this.data = data;
+    constructor(index,timestamp, data, previousHash ='')
+     {
+      this.index=index;
+      this.timestamp=timestamp;
+      this.data=data;
       this.previousHash = previousHash;
       this.hash = this.calculateHash();
-  }
-
-  calculateHash() {
-      return SHA256(this.index+this.previousHash+this.timestamp+JSON.stringify(this.data)).toString();
-  }
-}
-
+      this.nonce=0;  
+    }
+   
+    calculateHash(){
+       return SHA256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data)+this.nonce).toString();
+    }
+   
+    mineBlock(difficulty){
+        let start = Date.now();
+       while(this.hash.substring(0,difficulty)!== Array(difficulty+1).join("0")){
+           this.hash=this.calculateHash();
+                  this.nonce++; 
+       }
+       console.log("Block mined "+this.hash );
+       let timeTaken = Date.now() - start;
+       console.log("Total time taken : " + timeTaken + " milliseconds");
+    }    
+   }
 
 class Blockchain {
    constructor() {
-       this.chain=[this.createGenesisBlock()];
+       this.chain = [this.createGenesisBlock()];
+       this.difficulty = 4;
    }
 
    createGenesisBlock() {
@@ -29,8 +42,9 @@ class Blockchain {
    }
 
    addBlock(newBlock) {
-    newBlock.previousHash=this.getLatestBlock().hash;
+    newBlock.previousHash = this.getLatestBlock().hash;
     newBlock.hash = newBlock.calculateHash();
+    newBlock.mineBlock(this.difficulty);
     this.chain.push(newBlock);
    }
 
@@ -49,14 +63,13 @@ class Blockchain {
 }
 
 let btCoin = new Blockchain();
+console.log("Mining block 1")
 btCoin.addBlock(new Block(1, "1/2/2022", {name:"TK", amount:4}));
 //Uncomment the code below to tamper with the chain
 //btCoin.chain[1].hash = "examplefakehash";
 //btCoin.chain[1].data.amount = 100000;
+console.log("Mining block 2")
 btCoin.addBlock(new Block(2, "2/2/2022", {name:"TM1", amount:4}));
-btCoin.addBlock(new Block(3, "4/5/2022", {name:"TM3", amount:2}));
-btCoin.addBlock(new Block(2, "4/6/2022", {name:"TM4", amount:3}));
-console.log(JSON.stringify(btCoin, null, 4));
 console.log("Is this chain valid?: "+btCoin.isChainValid());
 
 
